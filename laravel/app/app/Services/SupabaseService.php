@@ -9,7 +9,7 @@ class SupabaseService
 {
     protected string $url;
     protected string $serviceKey;
-    protected string $table = 'nutri_visitors';
+    protected string $table = 'nutridiario';
 
     public function __construct()
     {
