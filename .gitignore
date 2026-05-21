@@ -1,0 +1,40 @@
+# Arquivos sensíveis
+.env
+.env.*
+
+# Claude Code
+.claude/
+
+# Dados dos containers
+postgresql/data/*
+!postgresql/data/.gitkeep
+
+# Logs
+nginx/logs/*
+!nginx/logs/.gitkeep
+laravel/logs/*
+!laravel/logs/.gitkeep
+logs/
+
+# SSL certificates
+nginx/ssl/*
+!nginx/ssl/.gitkeep
+
+# Laravel specific
+laravel/app/vendor/
+laravel/app/node_modules/
+laravel/app/.env
+laravel/app/storage/framework/cache/*
+laravel/app/storage/framework/sessions/*
+laravel/app/storage/framework/views/*
+laravel/app/bootstrap/cache/*
+
+# Docker
+*.log
+
+# Backups (dados sensíveis, não versionados)
+backups/
+*.sql
+*.dump
+*.tar.gz
+*.zip

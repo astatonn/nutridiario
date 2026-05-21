@@ -1,0 +1,146 @@
+{
+  "perguntas": [
+    {
+      "id": 1,
+      "texto": "Quando decide começar uma dieta, você:",
+      "opcoes": {
+        "A": "Quer resultados rápidos e visíveis",
+        "B": "Fica animado com a novidade",
+        "C": "Prefere algo simples e duradouro",
+        "D": "Quer entender todos os detalhes antes"
+      }
+    },
+    {
+      "id": 2,
+      "texto": "Se sai da dieta, o que faz:",
+      "opcoes": {
+        "A": "Volta firme no dia seguinte",
+        "B": "Acha que \"tudo bem, depois recomeço\"",
+        "C": "Fica frustrado, mas tenta manter a calma",
+        "D": "Analisa o que deu errado e ajusta o plano"
+      }
+    },
+    {
+      "id": 3,
+      "texto": "O que mais motiva você a manter a alimentação correta:",
+      "opcoes": {
+        "A": "Bater metas e ver resultado rápido",
+        "B": "Ouvir elogios e se sentir bem socialmente",
+        "C": "Cuidar da saúde e manter rotina",
+        "D": "Saber que está fazendo tudo certo"
+      }
+    },
+    {
+      "id": 4,
+      "texto": "Quando o nutricionista muda o plano:",
+      "opcoes": {
+        "A": "Aceita se achar que acelera o progresso",
+        "B": "Gosta da novidade",
+        "C": "Prefere mudanças pequenas",
+        "D": "Questiona e quer entender o motivo"
+      }
+    },
+    {
+      "id": 5,
+      "texto": "Seu comportamento em festas ou eventos:",
+      "opcoes": {
+        "A": "Come com controle e volta ao plano",
+        "B": "Gosta de experimentar de tudo",
+        "C": "Evita exageros, mas participa",
+        "D": "Planeja antes o que pode comer"
+      }
+    },
+    {
+      "id": 6,
+      "texto": "Quando sente fome fora de hora:",
+      "opcoes": {
+        "A": "Segura e espera o horário",
+        "B": "Belisca algo leve",
+        "C": "Busca alternativa dentro da dieta",
+        "D": "Reavalia horários e ajusta o plano"
+      }
+    },
+    {
+      "id": 7,
+      "texto": "Seu prato ideal:",
+      "opcoes": {
+        "A": "Simples e funcional",
+        "B": "Colorido e cheio de sabores",
+        "C": "Caseiro e equilibrado",
+        "D": "Bem calculado e pesado corretamente"
+      }
+    },
+    {
+      "id": 8,
+      "texto": "Sua reação diante de uma restrição alimentar:",
+      "opcoes": {
+        "A": "Cumpre sem reclamar",
+        "B": "Tenta driblar de vez em quando",
+        "C": "Se adapta aos poucos",
+        "D": "Quer saber a razão exata"
+      }
+    },
+    {
+      "id": 9,
+      "texto": "Como você lida com a rotina alimentar:",
+      "opcoes": {
+        "A": "Gosta de metas claras e horários fixos",
+        "B": "Precisa de variedade e flexibilidade",
+        "C": "Mantém a disciplina com constância",
+        "D": "Prefere tudo organizado e medido"
+      }
+    },
+    {
+      "id": 10,
+      "texto": "Quando viaja ou muda de ambiente:",
+      "opcoes": {
+        "A": "Cria uma nova estratégia rápida",
+        "B": "Se adapta com o que tem",
+        "C": "Tenta manter o máximo possível",
+        "D": "Leva tudo planejado"
+      }
+    },
+    {
+      "id": 11,
+      "texto": "Sobre acompanhamento nutricional:",
+      "opcoes": {
+        "A": "Quer metas e comparativos de evolução",
+        "B": "Precisa de incentivo e contato próximo",
+        "C": "Gosta de constância e orientações simples",
+        "D": "Quer planilhas, medidas e relatórios técnicos"
+      }
+    },
+    {
+      "id": 12,
+      "texto": "O que mais atrapalha sua dieta:",
+      "opcoes": {
+        "A": "Falta de resultado rápido",
+        "B": "Tédio ou falta de motivação",
+        "C": "Mudanças na rotina",
+        "D": "Falta de organização e dados claros"
+      }
+    }
+  ],
+  "perfis": {
+    "A": {
+      "cor": "Vermelho",
+      "tipo": "Dominante",
+      "foco": "Resultado"
+    },
+    "B": {
+      "cor": "Amarelo",
+      "tipo": "Influente",
+      "foco": "Prazer e estímulo"
+    },
+    "C": {
+      "cor": "Verde",
+      "tipo": "Estável",
+      "foco": "Constância e rotina"
+    },
+    "D": {
+      "cor": "Azul",
+      "tipo": "Cauteloso",
+      "foco": "Controle e precisão"
+    }
+  }
+}

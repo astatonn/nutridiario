@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgresql:
+    image: postgres:16-alpine
+    container_name: nutridiario-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+      - ./postgresql/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - nutridiario-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Segurança: PostgreSQL NÃO expõe portas para o host
+    # Apenas containers na mesma rede podem acessar
+
+  # Laravel Application
+  laravel:
+    build:
+      context: ./laravel
+      dockerfile: Dockerfile
+    container_name: nutridiario-app
+    restart: unless-stopped
+    environment:
+      APP_NAME: ${APP_NAME}
+      APP_ENV: ${APP_ENV}
+      APP_KEY: ${APP_KEY}
+      APP_DEBUG: ${APP_DEBUG}
+      APP_URL: ${APP_URL}
+      DB_CONNECTION: pgsql
+      DB_HOST: postgresql
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./laravel/app:/var/www/html
+      - ./laravel/storage:/var/www/html/storage
+      - ./laravel/logs:/var/www/html/storage/logs
+    networks:
+      - nutridiario-network
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    # Segurança: Laravel NÃO expõe portas para o host
+    # Apenas o Nginx pode acessar via rede interna
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: nutridiario-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/logs:/var/log/nginx
+      - ./nginx/certbot:/var/www/certbot:ro
+      - ./laravel/app:/var/www/html:ro
+    networks:
+      - nutridiario-network
+    depends_on:
+      - laravel
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  nutridiario-network:
+    driver: bridge
+    internal: false
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
