@@ -236,7 +236,7 @@
                     return;
                 }
 
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const emailRegex = /^[^\s@]+@[^\s@]+$/;
                 if (!emailRegex.test(email)) {
                     this.showValidationMessage('Por favor, insira um e-mail válido (ex: nome@email.com).');
                     return;
@@ -383,7 +383,7 @@
                     const whatsapp = document.getElementById('contact_whatsapp')?.value;
                     const nascimento = document.getElementById('contact_nascimento')?.value;
 
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    const emailRegex = /^[^\s@]+@[^\s@]+$/;
                     return nome && email && emailRegex.test(email) && whatsapp && nascimento;
                 }
 

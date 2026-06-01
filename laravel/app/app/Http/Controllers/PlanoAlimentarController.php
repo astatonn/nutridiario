@@ -32,7 +32,7 @@ class PlanoAlimentarController extends Controller
             $validated = $request->validate([
                 'tipo' => 'nullable|string',
                 'nome_completo' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
+                'email' => 'required|string|max:255',
                 'whatsapp' => 'required|string|max:20',
                 'data_nascimento' => 'required|string',
                 'respostas_formulario' => 'nullable|array',
