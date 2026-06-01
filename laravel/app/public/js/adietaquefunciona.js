@@ -236,6 +236,12 @@
                     return;
                 }
 
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    this.showValidationMessage('Por favor, insira um e-mail válido (ex: nome@email.com).');
+                    return;
+                }
+
                 try {
                     // Show loading
                     this.loadingOverlay.style.display = 'flex';
@@ -275,11 +281,14 @@
                         });
 
                         if (!laravelResponse.ok) {
-                            console.error('Erro ao salvar no backend:', await laravelResponse.text());
+                            const errBody = await laravelResponse.text();
+                            console.error('Erro ao salvar no backend:', errBody);
+                            // On validation errors (422), show feedback but still continue
+                            // so the n8n webhook still captures the data as fallback
                         }
                     } catch (error) {
                         console.error('Erro ao enviar para backend:', error);
-                        // Continue execution even if Laravel fails
+                        // Continue so the n8n webhook still captures the data
                     }
 
                     // Send to N8N webhook
@@ -374,7 +383,8 @@
                     const whatsapp = document.getElementById('contact_whatsapp')?.value;
                     const nascimento = document.getElementById('contact_nascimento')?.value;
 
-                    return nome && email && whatsapp && nascimento;
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return nome && email && emailRegex.test(email) && whatsapp && nascimento;
                 }
 
                 // Check if current question should be shown (for conditional questions)
