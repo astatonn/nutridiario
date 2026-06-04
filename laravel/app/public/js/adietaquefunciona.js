@@ -340,16 +340,10 @@
             }
             
             handleQ30Change() {
-                const selectedValue = document.querySelector('input[name="q30"]:checked')?.value;
-                
-                // Just update totalQuestions based on selection, don't show questions yet
-                if (selectedValue === '3_5x' || selectedValue === 'irregular') {
-                    this.totalQuestions = 34; // Include conditional questions (30 base + 2 conditional + 2 final)
-                } else if (selectedValue === 'quero_comecar' || selectedValue === 'nao_pratico') {
-                    this.totalQuestions = 32; // Skip conditional questions (30 base + 2 final)
-                }
-                
-                // Update progress immediately
+                // No fluxo "mixed" (único ativo), o total de telas é fixo (this.totalQuestions = 46)
+                // e a ordem é definida em setupMixedQuestions(). Não devemos sobrescrever
+                // totalQuestions aqui — isso vinha do fluxo antigo e fazia a porcentagem
+                // ultrapassar 100% (ex.: 44/34 = 129%).
                 this.updateProgress();
             }
             
@@ -716,7 +710,8 @@
                     questionsAnswered = 1;
                 }
 
-                const progressPercentage = (questionsAnswered / this.totalQuestions) * 100;
+                // Clamp entre 0 e 100% para nunca exibir valores fora da faixa
+                const progressPercentage = Math.min(100, Math.max(0, (questionsAnswered / this.totalQuestions) * 100));
                 this.progressFill.style.width = `${progressPercentage}%`;
                 this.progressText.textContent = `${Math.round(progressPercentage)}%`;
             }
