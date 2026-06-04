@@ -266,42 +266,38 @@
                         fluxo: this.flowType
                     };
 
-                    // Send to Laravel backend (Supabase)
-                    try {
-                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-                        const laravelResponse = await fetch('/planoalimentar', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': csrfToken || ''
-                            },
-                            body: JSON.stringify(dataToSend)
-                        });
-
-                        if (!laravelResponse.ok) {
-                            const errBody = await laravelResponse.text();
-                            console.error('Erro ao salvar no backend:', errBody);
-                            // On validation errors (422), show feedback but still continue
-                            // so the n8n webhook still captures the data as fallback
-                        }
-                    } catch (error) {
-                        console.error('Erro ao enviar para backend:', error);
-                        // Continue so the n8n webhook still captures the data
-                    }
-
-                    // Send to N8N webhook
-                    const response = await fetch('https://n8n.nutridiario.com.br/webhook/salvardados', {
+                    // Envia para o backend Laravel (Supabase) — esta é a fonte de verdade.
+                    // O sucesso do formulário depende SOMENTE deste salvamento.
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                    const laravelResponse = await fetch('/planoalimentar', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': csrfToken || ''
                         },
                         body: JSON.stringify(dataToSend)
                     });
 
-                    if (!response.ok) {
-                        throw new Error('Erro ao enviar dados');
+                    if (!laravelResponse.ok) {
+                        const errBody = await laravelResponse.text();
+                        console.error('Erro ao salvar no backend:', errBody);
+                        throw new Error('Erro ao salvar os dados');
+                    }
+
+                    // Envia para o webhook N8N (best-effort): se falhar, NÃO bloqueia o
+                    // usuário, pois os dados já foram salvos no Supabase acima.
+                    try {
+                        await fetch('https://n8n.nutridiario.com.br/webhook/salvardados', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(dataToSend)
+                        });
+                    } catch (n8nError) {
+                        console.warn('Webhook N8N indisponível (dados já salvos no Supabase):', n8nError);
                     }
 
                     // Hide loading
